@@ -1,7 +1,6 @@
 // Importar la libreria de express a este archivo para obtener la ayuda 
 const {response} = require('express');
-
-const User = require('models/User');
+const User = require('../models/User');
 
 
 const crearUsuario = async(req, res = response) => {
@@ -42,6 +41,21 @@ const crearUsuario = async(req, res = response) => {
 const loginUsuario = (req, res = response) => {
 
     const { email, password} = req.body;
+
+    try {
+        const userDB = User.findOne({email});
+        if(userDB == null){
+            return res.status(404).json({
+                ok:false,
+                msg:"El usuario no existe"
+            })
+        }
+    } catch (error) {
+        res.status(500).json({
+            ok: false,
+            msg: 'No se puede realizar el registro'
+        })
+    }
 
 
     res.json({
