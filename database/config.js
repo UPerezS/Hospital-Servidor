@@ -1,24 +1,22 @@
-const mongoose= require('mongoose');
+const mongoose = require('mongoose');
 
-const dbConnection = async() => {
+// Asigna directamente la cadena de conexión
+const DB_MONGO = 'mongodb://localhost:27017/medico';
 
-    try {
-
-        await mongoose.connect( process.env.DB_Connection, {
-            // useNewUrlParser: true,
-            // useUnifiedTopology: true,
-            // useCreateIndex: true
-        });
-
-        console.log('db conectada')
-
-    }catch (error) {
-        console.log(error);
-        throw new Error('Error al conectar con la BD')
-    }
-}
-
+const dbConnection = async () => {
+  try {
+    await mongoose.connect(DB_MONGO, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true
+      //useCreateIndex: true,
+    });
+    console.log('Conexión a la base de datos exitosa');
+  } catch (error) {
+    console.error(error);
+    throw new Error('Error al conectar con la base de datos');
+  }
+};
 
 module.exports = {
-    dbConnection
-}
+  dbConnection,
+};
